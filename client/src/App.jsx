@@ -9,6 +9,7 @@ export default function App() {
   const [status, setStatus] = useState("idle");
   const [clip, setClip] = useState(null);
   const [copyMessage, setCopyMessage] = useState("");
+  const [shareMessage, setShareMessage] = useState("");
   const [pasteMessage, setPasteMessage] = useState("");
   const [isPasting, setIsPasting] = useState(false);
   const urlInput = useRef(null);
@@ -44,12 +45,52 @@ export default function App() {
   async function copyLink() {
     try {
       await navigator.clipboard.writeText(shareUrl);
+      setShareMessage("");
       setCopyMessage("Link copiado!");
     } catch {
       setCopyMessage(
         "Não foi possível copiar automaticamente. Selecione o link acima e copie manualmente.",
       );
     }
+  }
+
+  async function shareNative() {
+    if (!shareUrl) return;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "zona de segurança",
+          text: "Veja esse vídeo comigo:",
+          url: shareUrl,
+        });
+        setShareMessage("Compartilhado!");
+        setCopyMessage("");
+        return;
+      }
+
+      await navigator.clipboard.writeText(shareUrl);
+      setShareMessage(
+        "Compartilhamento nativo não disponível no navegador. Copiei o link para você.",
+      );
+      setCopyMessage("");
+    } catch {
+      setShareMessage(
+        "Não foi possível abrir o compartilhamento. Copie o link ou use o WhatsApp.",
+      );
+    }
+  }
+
+  function shareWhatsApp() {
+    if (!shareUrl) return;
+    const message = encodeURIComponent(`Veja esse vídeo: ${shareUrl}`);
+    window.open(
+      `https://wa.me/?text=${message}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+    setShareMessage("Abrindo o WhatsApp…");
+    setCopyMessage("");
   }
 
   async function handleSubmit(event) {
@@ -116,7 +157,11 @@ export default function App() {
             </>
           ) : (
             <>
-              Um cantinho seguro para os vídeos que dizem
+              Sabe aquela pessoa que não tem twitter mas para quem você uma vez
+              ou outra quer compartilhar um vídeo? Aquela pessoa que só vai ver
+              o conteúdo 2 semanas depois pelo bluesky. Aqui você compartilha o
+              vídeoa para os ex-usuarios de twitter sem colocá-los no perigo
+              real de interagir diretamente com a rede.
               <br />
               “vi isso e lembrei de você”.
             </>
@@ -138,7 +183,7 @@ export default function App() {
             </span>
             <div>
               <p className="card-kicker">olha issoooo</p>
-              <h2 id="form-title">Um link, um carinho.</h2>
+              <h2 id="form-title">feito p meu mozinho</h2>
             </div>
           </div>
           <p className="form-intro">
@@ -199,19 +244,36 @@ export default function App() {
                   readOnly
                   onFocus={(event) => event.target.select()}
                 />
-                <button onClick={copyLink}>Copiar link</button>
-                <p role="status">{copyMessage}</p>
+                <div className="share-actions">
+                  <button
+                    className="share-primary"
+                    type="button"
+                    onClick={shareNative}
+                  >
+                    Compartilhar
+                  </button>
+                  <button
+                    className="share-whatsapp"
+                    type="button"
+                    onClick={shareWhatsApp}
+                  >
+                    WhatsApp
+                  </button>
+                  <button
+                    className="share-copy"
+                    type="button"
+                    onClick={copyLink}
+                  >
+                    Copiar link
+                  </button>
+                </div>
+                <p role="status">{copyMessage || shareMessage}</p>
                 <a href={shareUrl} target="_blank" rel="noreferrer">
                   Abrir página do vídeo ↗
                 </a>
                 {["127.0.0.1", "localhost", "[::1]"].includes(
                   window.location.hostname,
-                ) && (
-                  <p className="note">
-                    Este link funciona apenas neste computador. Para enviar a
-                    outra pessoa, precisamos publicar a zona de segurança.
-                  </p>
-                )}
+                ) && <p className="note"></p>}
               </div>
               <VideoPlayer
                 clip={clip}
@@ -224,11 +286,7 @@ export default function App() {
               />
             </>
           )}
-          <p id="step-note" className="note">
-            Versão experimental: reproduz o primeiro vídeo MP4 disponível
-            publicamente. Alguns posts não são suportados. O link busca o vídeo
-            novamente a cada abertura; não armazenamos uma cópia.
-          </p>
+          <p id="step-note" className="note"></p>
         </section>
       )}
       <footer>

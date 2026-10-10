@@ -32,7 +32,7 @@ export default function Watch({ postId }) {
         if (controller.signal.aborted) return;
         setClip(data);
         setStatus("success");
-        setMessage("Aperte play para assistir.");
+        setMessage("Vídeo carregado com sucesso!");
       } catch (error) {
         if (controller.signal.aborted) return;
         setStatus("error");

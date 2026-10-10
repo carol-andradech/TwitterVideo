@@ -315,6 +315,43 @@ a {
   padding: 18px;
   margin: 20px 0;
 }
+.share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.share-actions button {
+  flex: 1 1 140px;
+  margin-top: 0;
+}
+.share-primary {
+  background: #d9e7ff;
+  color: #2e4b71;
+  border-color: #a7bfe4;
+  box-shadow: 0 3px 0 #a7bfe4;
+}
+.share-primary:hover {
+  background: #cfe0ff;
+}
+.share-whatsapp {
+  background: #e0f6e8;
+  color: #1d5b3a;
+  border-color: #a7d5b6;
+  box-shadow: 0 3px 0 #a7d5b6;
+}
+.share-whatsapp:hover {
+  background: #d6f0e1;
+}
+.share-copy {
+  background: #f7e7c3;
+  color: #6d4d1d;
+  border-color: #e0c481;
+  box-shadow: 0 3px 0 #e0c481;
+}
+.share-copy:hover {
+  background: #f2dfae;
+}
 .share-box p:empty {
   display: none;
 }
