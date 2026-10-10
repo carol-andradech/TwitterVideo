@@ -1,0 +1,12 @@
+{
+  "name": "zona-de-seguranca",
+  "private": true,
+  "version": "0.1.0",
+  "engines": { "node": ">=22.17.0 <23" },
+  "scripts": {
+    "install:all": "npm --prefix server ci --omit=dev && npm --prefix client ci --include=dev",
+    "build": "npm --prefix client run build",
+    "start": "node server/index.js",
+    "test": "node --test server/video.test.js"
+  }
+}
