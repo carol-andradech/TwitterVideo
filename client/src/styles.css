@@ -319,6 +319,20 @@ footer span {
   font-size: 22px;
   color: #986f9a;
 }
+.instagram-link {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: #986f9a;
+  vertical-align: middle;
+}
+.instagram-link:hover {
+  color: #8a4568;
+}
+.instagram-link svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
 a {
   color: #78508e;
   text-underline-offset: 4px;
