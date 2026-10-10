@@ -120,6 +120,11 @@ export default function App() {
 
   return (
     <main>
+      {sharedPostId !== null && (
+        <a className="back-home" href="/">
+          ← Voltar à página principal
+        </a>
+      )}
       <header className="hero">
         <p className="eyebrow">
           <span aria-hidden="true">♡</span> programa de proteção contra o
@@ -182,12 +187,12 @@ export default function App() {
               ♡
             </span>
             <div>
-              <p className="card-kicker">olha issoooo</p>
-              <h2 id="form-title">feito p meu mozinho</h2>
+              <h2 id="form-title">Cola aí</h2>
             </div>
           </div>
           <p className="form-intro">
-            Cole um post Twitter e prepare um vídeo para compartilhar.
+            Copie o link de um vídeo do Twitter e crie um link para compartilhar
+            com alguém.
           </p>
           <form onSubmit={handleSubmit}>
             <label htmlFor="post-url">URL do Twitter</label>
